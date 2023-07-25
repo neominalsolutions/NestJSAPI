@@ -7,6 +7,7 @@ import { ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { FilterDto } from 'src/dtos/filter.dto';
 import { UserCreateDto } from 'src/dtos/user.create.dto';
+import { UserReadDto } from 'src/dtos/user.read.dto';
 import { User } from 'src/models/user.entity';
 import { UserService } from 'src/services/user.service';
 
@@ -28,8 +29,8 @@ export class UsersController {
     type: Number
   })
   @ApiResponse({
-    type: User,
-    description:'adsadsa'
+    type: UserReadDto,
+    description:'Users'
   })
   getUserById(@Param() params: any) {
     console.log('userId', params.id);
@@ -55,6 +56,10 @@ export class UsersController {
     name: 'searchText',
     required: false,
     type: Number
+  })
+  @ApiResponse({
+    type: UserReadDto,
+    description:'Users'
   })
   @Get()
   getUsers(@Query() query: FilterDto) {
