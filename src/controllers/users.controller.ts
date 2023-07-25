@@ -5,6 +5,7 @@ https://docs.nestjs.com/controllers#controllers
 import { Body, Controller, Get, HttpStatus, Param, Post, Query, Req, Res } from '@nestjs/common';
 import { ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Request, Response } from 'express';
+import { FilterDto } from 'src/dtos/filter.dto';
 import { UserCreateDto } from 'src/dtos/user.create.dto';
 import { User } from 'src/models/user.entity';
 import { UserService } from 'src/services/user.service';
@@ -16,12 +17,14 @@ export class UsersController {
 
   constructor(private userService: UserService) { }
 
+  // not query string varsa en başa koyuyoruz yoksa api explorer anlamıyor
+
 
 
   @Get(':id')
   @ApiParam({
     name: 'id',
-    required: false,
+    required: true,
     type: Number
   })
   getUserById(@Param() params: any) {
@@ -29,8 +32,29 @@ export class UsersController {
     return this.userService.findOne(params.id);
   }
 
+  @ApiQuery({
+    name: 'page',
+    required: false,
+    type: Number
+  })
+  @ApiQuery({
+    name: 'limit',
+    required: false,
+    type: Number
+  })
+  @ApiQuery({
+    name: 'orderBy',
+    required: false,
+    type: Number
+  })
+  @ApiQuery({
+    name: 'searchText',
+    required: false,
+    type: Number
+  })
   @Get()
-  getUsers() {
+  getUsers(@Query() query: FilterDto) {
+    console.log('query', query);
     return this.userService.findAll();
   }
 
