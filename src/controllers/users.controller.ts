@@ -2,9 +2,9 @@
 https://docs.nestjs.com/controllers#controllers
 */
 
-import { Body, Controller, Get, HttpStatus, Param, Post, Query, Req, Res } from '@nestjs/common';
-import { ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
-import { Request, Response } from 'express';
+import { Body, Controller, Get, HttpStatus, Param, Post, Query, Res } from '@nestjs/common';
+import { ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Response } from 'express';
 import { FilterDto } from 'src/dtos/filter.dto';
 import { UserCreateDto } from 'src/dtos/user.create.dto';
 import { User } from 'src/models/user.entity';
@@ -26,6 +26,10 @@ export class UsersController {
     name: 'id',
     required: true,
     type: Number
+  })
+  @ApiResponse({
+    type: User,
+    description:'adsadsa'
   })
   getUserById(@Param() params: any) {
     console.log('userId', params.id);
@@ -60,20 +64,15 @@ export class UsersController {
 
   @Post()
   async create(@Body() dto: UserCreateDto, @Res() res: Response) {
-    var user = new User();
-    user.email = dto.email;
-    user.userName = dto.username;
-    user.firstName = dto.firstName;
-    user.lastName = dto.lastName;
+ 
+    console.log('userdto', dto);
 
     try {
-      await this.userService.add(user);
-      res.status(HttpStatus.CREATED).json(user);
+      const result = await this.userService.add(dto);
+      res.status(HttpStatus.CREATED).json(result);
     } catch (error) {
       res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(error);
     }
-
-
   }
 
 }

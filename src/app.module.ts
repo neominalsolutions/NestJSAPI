@@ -6,6 +6,9 @@ import { AppController } from './controllers/app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './models/user.entity';
+import { AutomapperModule } from '@automapper/nestjs';
+import { classes } from '@automapper/classes';
+import { UserMapperProfile } from './mappers/user.mapper';
 
 
 @Module({
@@ -19,12 +22,15 @@ import { User } from './models/user.entity';
       database: 'userDb',
       entities: [User],
     }),
-    TypeOrmModule.forFeature([User])
+    TypeOrmModule.forFeature([User]),
+    AutomapperModule.forRoot({
+      strategyInitializer:classes()
+    })
   ],
   controllers: [
     UsersController,
     ValuesController, AppController],
   providers: [
-    UserService, AppService],
+    UserService, AppService, UserMapperProfile],
 })
 export class AppModule { }
