@@ -5,18 +5,28 @@ import { IsEmail, IsNotEmpty, IsUrl, } from "class-validator";
 export class UserCreateDto {
 
   // default value tanımladık
-  @ApiProperty({default:''})
+  @ApiProperty({ default: '' })
   @IsNotEmpty()
-  UserName: string;
+  username: string;
 
-  @ApiProperty({default:''})
+  @ApiProperty({ default: '' })
   @IsNotEmpty({
-    message:'E-posta boş geçilemez'
+    message: 'E-posta boş geçilemez'
   })
   @IsEmail()
-  Email: string;
+  email: string;
 
-  @ApiProperty({default:'https://www.a.com'})
+
+  @ApiProperty({ default: '' })
+  @IsNotEmpty()
+  firstName: string;
+
+  @ApiProperty({ default: '' })
+  @IsNotEmpty()
+  lastName: string;
+
+
+  @ApiProperty({ default: 'https://www.a.com' })
   @IsUrl()
-  Url:String;
+  url: String;
 }
