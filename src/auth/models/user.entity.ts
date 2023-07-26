@@ -1,5 +1,6 @@
 import { AutoMap } from '@automapper/classes';
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable } from 'typeorm';
+import { Role } from './role.entity';
 
 @Entity()
 export class User {
@@ -22,5 +23,17 @@ export class User {
   @AutoMap()
   @Column()
   email: string;
+
+  @Column()
+  passwordHash: string;
+
+  @Column()
+  passwordSalt: string;
+
+  @ManyToMany((type => Role), role => role.users)
+  @JoinTable({
+    name: 'userrole'
+  })
+  roles: Role[];
 
 }

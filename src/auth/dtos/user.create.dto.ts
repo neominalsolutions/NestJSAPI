@@ -9,7 +9,7 @@ export class UserCreateDto {
   @AutoMap()
 
   @IsNotEmpty()
-  @ApiProperty({ default: '', description:'username field' })
+  @ApiProperty({ default: '', description: 'username field' })
   userName: string;
 
   // description Schemas kısmında görüntüleniyor.
@@ -32,6 +32,11 @@ export class UserCreateDto {
   @ApiProperty({ default: '' })
   @IsNotEmpty()
   lastName: string;
+
+  @AutoMap()
+  @ApiProperty({ default: '******' })
+  @IsNotEmpty()
+  password: string;
 
 
   @ApiProperty({ default: 'https://www.a.com' })

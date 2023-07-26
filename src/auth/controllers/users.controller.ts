@@ -5,11 +5,11 @@ https://docs.nestjs.com/controllers#controllers
 import { Body, Controller, Get, HttpStatus, Param, Post, Query, Res } from '@nestjs/common';
 import { ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
-import { FilterDto } from 'src/dtos/filter.dto';
-import { UserCreateDto } from 'src/dtos/user.create.dto';
-import { UserReadDto } from 'src/dtos/user.read.dto';
-import { User } from 'src/models/user.entity';
-import { UserService } from 'src/services/user.service';
+import { FilterDto } from 'src/auth/dtos/filter.dto';
+import { UserCreateDto } from 'src/auth/dtos/user.create.dto';
+import { UserReadDto } from 'src/auth/dtos/user.read.dto';
+import { UserService } from 'src/auth/services/user.service';
+
 
 @Controller('users')
 @ApiTags('users')
@@ -30,7 +30,7 @@ export class UsersController {
   })
   @ApiResponse({
     type: UserReadDto,
-    description:'Users'
+    description: 'Users'
   })
   getUserById(@Param() params: any) {
     console.log('userId', params.id);
@@ -59,7 +59,7 @@ export class UsersController {
   })
   @ApiResponse({
     type: UserReadDto,
-    description:'Users'
+    description: 'Users'
   })
   @Get()
   getUsers(@Query() query: FilterDto) {
@@ -69,7 +69,7 @@ export class UsersController {
 
   @Post()
   async create(@Body() dto: UserCreateDto, @Res() res: Response) {
- 
+
     console.log('userdto', dto);
 
     try {

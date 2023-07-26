@@ -1,9 +1,9 @@
 import { Mapper, createMap } from "@automapper/core";
 import { AutomapperProfile, InjectMapper } from "@automapper/nestjs";
 import { Injectable } from "@nestjs/common";
-import { UserCreateDto } from "src/dtos/user.create.dto";
-import { UserReadDto } from "src/dtos/user.read.dto";
-import { User } from "src/models/user.entity";
+import { UserCreateDto } from "src/auth/dtos/user.create.dto";
+import { UserReadDto } from "src/auth/dtos/user.read.dto";
+import { User } from "src/auth/models/user.entity";
 
 @Injectable()
 export class UserMapperProfile extends AutomapperProfile {
@@ -14,7 +14,7 @@ export class UserMapperProfile extends AutomapperProfile {
 
   override get profile() {
     return (mapper) => {
-      createMap(mapper,UserCreateDto, User); // source to destination
+      createMap(mapper, UserCreateDto, User); // source to destination
       createMap(mapper, User, UserReadDto);
     };
   }
