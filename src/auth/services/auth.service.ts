@@ -21,7 +21,6 @@ export class AuthService {
 
   async signIn(email, pass): Promise<TokenDto> {
     const user = await this.usersService.findOneByEmail(email);
-    console.log('user', user);
     const passHas = await bcrypt.hash(pass, user.passwordSalt);
     console.log('passHas', passHas);
 
