@@ -13,7 +13,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @ApiResponse({ type: TokenDto })
   @Post('login')
-  signIn(@Body() signInDto: SignInDto) {
+  signIn(@Body() signInDto: SignInDto) {    
     return this.authService.signIn(signInDto.email, signInDto.password);
   }
 

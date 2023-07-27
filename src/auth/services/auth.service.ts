@@ -33,6 +33,7 @@ export class AuthService {
 
     const payload = { sub: user.id, username: user.email, roles: roles };
     console.log('payload', payload);
+
     const response = new TokenDto();
     response.accessToken = await this.jwtService.signAsync(payload, {
       privateKey: jwtConstants.secret

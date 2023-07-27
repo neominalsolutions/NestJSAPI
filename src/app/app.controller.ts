@@ -33,4 +33,18 @@ export class AppController {
     console.log('cache-manager', val);
     return {id:1,name:'test'};
   }
+
+  @Get('from-session')
+  async getFromSession(@Req() request:Request){
+
+    // session bilgilerini req.sessiondan okuyoruz.
+    
+    if(!request.session['user']){
+      console.log('session')
+      request.session['user'] = {id:1,name:"deneme"};
+    }
+
+    return { session: request.session['user'], id: request.sessionID };
+  }
+  
 }

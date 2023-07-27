@@ -4,6 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import { RolesGuard } from './auth/guards/role.guard';
 import helmet from 'helmet';
+import * as session from 'express-session';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -37,6 +38,7 @@ async function bootstrap() {
   app.useGlobalGuards(); // uygulama genelinde tüm guardları aktif et
   app.enableCors(); // cors ayarlarını aktif ettik.
   app.use(helmet()); // saldırılara karşı koruma altına almak için kullandığımız bir paket
+  app.use(session({secret:'api-session', resave:false, saveUninitialized:false}))
   await app.listen(3000);
 }
 bootstrap();
