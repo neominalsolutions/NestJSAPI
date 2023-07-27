@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import { RolesGuard } from './auth/guards/role.guard';
+import helmet from 'helmet';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -31,8 +32,11 @@ async function bootstrap() {
     disableErrorMessages: true,
   })
   */
+
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalGuards(); // uygulama genelinde tüm guardları aktif et
+  app.enableCors(); // cors ayarlarını aktif ettik.
+  app.use(helmet()); // saldırılara karşı koruma altına almak için kullandığımız bir paket
   await app.listen(3000);
 }
 bootstrap();
