@@ -9,7 +9,7 @@ import { FilterDto } from 'src/auth/dtos/filter.dto';
 import { UserCreateDto } from 'src/auth/dtos/user.create.dto';
 import { UserReadDto } from 'src/auth/dtos/user.read.dto';
 import { UserService } from 'src/auth/services/user.service';
-import { Roles } from '../decorators/role.decorator';
+import { Auth } from '../decorators/auth.decorator';
 import { RoleTypes } from '../decorators/role.enum';
 import { AuthGuard } from '../guards/auth.guard';
 import { RolesGuard } from '../guards/role.guard';
@@ -28,7 +28,7 @@ export class UsersController {
   @Get(':id')
   @ApiParam({
     name: 'id',
-    required: true,
+    required: false,
     type: Number
   })
   @ApiResponse({
@@ -65,14 +65,14 @@ export class UsersController {
     description: 'Users'
   })
   @Get()
+  @Auth()
   getUsers(@Query() query: FilterDto) {
     console.log('query', query);
     return this.userService.findAll();
   }
 
   @Post()
-  @UseGuards(RolesGuard) // global olarak Guardlar uygulansın dediğimiz için tanımlamaya gerek yok.
-  @Roles(RoleTypes.Admin) // sadece admin user create edebilir.
+  @Auth(RoleTypes.Admin)
   async create(@Body() dto: UserCreateDto, @Res() res: Response) {
 
     console.log('userdto', dto);

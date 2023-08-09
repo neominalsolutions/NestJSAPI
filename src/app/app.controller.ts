@@ -1,4 +1,4 @@
-import { Controller, Get, Inject, Req, UseGuards, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Controller, Get, Inject, Req, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AppService } from '../app.service';
 import { ApiTags } from '@nestjs/swagger';
 import { UserService } from 'src/auth/services/user.service';
@@ -6,6 +6,7 @@ import { Throttle, ThrottlerGuard } from '@nestjs/throttler';
 import { CACHE_MANAGER, CacheInterceptor, CacheKey, CacheTTL } from '@nestjs/cache-manager';
 import { Request } from 'express';
 import {Cache} from 'cache-manager';
+import { HttpExceptionFilter } from 'src/auth/filters/exception.filter';
 
 @Controller()
 @ApiTags('app')
@@ -15,7 +16,13 @@ export class AppController {
   @Get()
   @UseGuards(ThrottlerGuard) // sadece bu actionda rate limiting uygulamak için
   @Throttle(5,30) // 30sn de 5 request limiti
+  // @UseFilters(new HttpExceptionFilter())
+  // action bazlı hata filtreleme
   getHello(): string {
+
+    throw new BadRequestException("My Error",{ cause: new Error(), description: 'Some error description' });
+    
+
     this.userService.findAll();
     return this.appService.getHello();
   }

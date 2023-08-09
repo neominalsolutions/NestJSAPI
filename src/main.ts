@@ -5,6 +5,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { RolesGuard } from './auth/guards/role.guard';
 import helmet from 'helmet';
 import * as session from 'express-session';
+import { HttpExceptionFilter } from './auth/filters/exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -38,6 +39,7 @@ async function bootstrap() {
   app.useGlobalGuards(); // uygulama genelinde tüm guardları aktif et
   app.enableCors(); // cors ayarlarını aktif ettik.
   app.use(helmet()); // saldırılara karşı koruma altına almak için kullandığımız bir paket
+  app.useGlobalFilters(new HttpExceptionFilter());
   app.use(session({secret:'api-session', resave:false, saveUninitialized:false}))
   await app.listen(3000);
 }
